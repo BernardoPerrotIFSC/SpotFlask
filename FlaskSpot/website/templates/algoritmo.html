@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %} Algoritmo {% endblock %}
+
+{% block content %}
+    <h1>Algoritmo Dos Picos</h1>
+    <form method="POST">
+        <div>
+            <label for="vento">Direção do Vento</label>
+            <input id="vento" name="vento" type="number" placeholder="Digite o ângulo do vento">
+        </div>
+        <div>
+            <label for="tamanho">Tamanho das Ondulação</label>
+            <input id="tamanho" name="tamanho" type="number" placeholder="Digite o tamanho do swell">
+        </div>
+        <div>
+            <label for="swell">Direção do Swell</label>
+            <input id="swell" name="swell" type="number" placeholder="Digite a direção do Swell">
+        </div>
+        <button type="submit">Calcular</button>
+    </form>
+    <div>
+        <h3>O angulo do vento é : {{ vento }}</h3>
+    </div>
+
+{% endblock %}
