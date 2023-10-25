@@ -20,6 +20,18 @@
         </div>
         <button type="submit">Calcular</button>
     </form>
+    <script id="wg_fwdg_5690_100_1698251679450">
+        (function (window, document) {
+          var loader = function () {
+            var arg = ["s=5690" ,"m=100","mw=83","uid=wg_fwdg_5690_100_1698251679450" ,"wj=knots" ,"tj=c" ,"waj=m" ,"tij=cm" ,"odh=0" ,"doh=24" ,"fhours=240" ,"hrsm=2" ,"vt=forecasts" ,"lng=pt" ,"idbs=1" ,"p=WINDSPD,GUST,SMER,HTSGW,PERPW,DIRPW,TMP,TCDC,APCP1s,RH"];
+            var script = document.createElement("script");
+            var tag = document.getElementsByTagName("script")[0];
+            script.src = "https://www.windguru.cz/js/widget.php?"+(arg.join("&"));
+            tag.parentNode.insertBefore(script, tag);
+          };
+          window.addEventListener ? window.addEventListener("load", loader, false) : window.attachEvent("onload", loader);
+        })(window, document);
+    </script>
     <div>
         {% if vento: %}
         <h3>O ângulo do vento é: {{ vento }}</h3>
