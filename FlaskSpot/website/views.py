@@ -22,7 +22,9 @@ def algoritmo():
         vento = int(request.form.get('vento'))
         swell = float(request.form.get('tamanho'))
         direcao = int(request.form.get('swell'))
-        guarda = Condicao(1,"Guarda do Embaú", 65, 270, 45, 270, 22, 270, 1.1, 2.2, 1.4, 2.2, 1.6, 2.5, 45, 180, 45, 180, 45, 180, "fechado")
+        
+        #Paulo Lopes
+        guarda = Condicao(1,"Guarda do Embaú", 65, 270, 45, 270, 22, 270, 1.1, 2.5, 1.4, 2.5, 1.6, 2.5, 45, 180, 45, 180, 45, 180, "fechado")
         gamboa = Condicao(2, "Gamboa", 140, 270, 180, 270, 180, 270, 1.4, 2.2, 1.6, 2.5, 2, 2.5, 67, 135, 67, 110, 67, 110, "fechado")
 
         #Garopaba

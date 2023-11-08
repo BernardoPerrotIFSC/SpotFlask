@@ -3,22 +3,22 @@
 {% block title %} Algoritmo {% endblock %}
 
 {% block content %}
-    <h1>Algoritmo Dos Picos</h1>
-    <h2>Usar informações do <a href="https://www.windguru.cz/5690" target="_blank">https://www.windguru.cz/5690</a></h2>
-    <form method="POST">
-        <div>
+    <h1 class="text-center">Algoritmo Dos Picos</h1>
+    <!-- <h2>Usar informações do <a href="https://www.windguru.cz/5690" target="_blank">https://www.windguru.cz/5690</a></h2> -->
+    <form method="POST" class="algoritmo">
+        <div class="form-group">
             <label for="vento">Direção do Vento</label>
-            <input id="vento" name="vento" type="number" placeholder="Digite o ângulo do vento">
+            <input id="vento" name="vento" type="number" placeholder="Digite o ângulo do vento" class="form-control">
         </div>
-        <div>
+        <div class="form-group">
             <label for="tamanho">Tamanho das Ondulação</label>
-            <input type="number" step="0.1" id="tamanho" name="tamanho" type="number" placeholder="Digite o tamanho do swell">
+            <input type="number" step="0.1" id="tamanho" name="tamanho" type="number" placeholder="Digite o tamanho do swell" class="form-control">
         </div>
-        <div>
+        <div class="form-group">
             <label for="swell">Direção do Swell</label>
-            <input id="swell" name="swell" type="number" placeholder="Digite a direção do Swell">
+            <input id="swell" name="swell" type="number" placeholder="Digite a direção do Swell" class="form-control">
         </div>
-        <button type="submit">Calcular</button>
+        <button type="submit" class="btn btn-success">Calcular</button>
     </form>
     <script id="wg_fwdg_5690_100_1698251679450">
         (function (window, document) {
