@@ -1,0 +1,34 @@
+{% extends "base.html"%}
+{% block title %}View{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Histórico de Condições</h1>
+    <table>
+        <thead>
+            <th>Direção Vento</th>
+            <th>Tamanho de Swell</th>
+            <th>Direção Swell</th>
+            <th>Data</th>
+            <th>Picos Clássicos</th>
+            <th>Altas</th>
+            <th>Umas Valas</th>
+        </thead>
+        {% for condicao in usuario.historico %}
+            <tr>
+                <td>{{condicao.vento}}</td>
+                <td>{{condicao.swell}}</td>
+                <td>{{condicao.direcao}}</td>
+                <td>{{condicao.data}}</td>
+                <td>{{condicao.classicos}}</td>
+                <td>{{condicao.altas}}</td>
+                <td>{{condicao.vala}}</td>
+                <td><button type="button" class="btn btn-danger" onClick="removeHistorico({{ condicao.id }})">Remover</button></td>
+            </tr>
+            
+        {% endfor %}
+    </table>
+
+    
+        
+{% endblock %}
+

@@ -3,15 +3,20 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_admin import Admin
 db = SQLAlchemy()
 DB_NAME = "database.db"
+admin = Admin()
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'você não vai adivinhar'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
+    admin.init_app(app)    
     migrate = Migrate(app, db)
+
+
 
     from .views import views
     from .auth import auth

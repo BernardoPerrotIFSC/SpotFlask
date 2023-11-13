@@ -1,6 +1,9 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
-from .models import Condicao
+from .models import Condicao, Historico
+from website import db
+from datetime import datetime
+import json
 
 
 views = Blueprint('views', __name__)
@@ -22,6 +25,8 @@ def algoritmo():
         vento = int(request.form.get('vento'))
         swell = float(request.form.get('tamanho'))
         direcao = int(request.form.get('swell'))
+        data_str = request.form.get('data')
+        data = datetime.strptime(data_str, '%Y-%m-%d')
         
         #Paulo Lopes
         guarda = Condicao(1,"Guarda do Embaú", 65, 270, 45, 270, 22, 270, 1.1, 2.5, 1.4, 2.5, 1.6, 2.5, 45, 180, 45, 180, 45, 180, "fechado")
@@ -41,7 +46,7 @@ def algoritmo():
 
         #imbituba
         rosanorte = Condicao(13, "Rosa Norte", 75, 180, 45, 180, 22, 200, 1.1, 2, 1.4, 2, 1.5, 2, 67, 190, 90, 180, 90, 180, "aberto")
-        rosasul = Condicao(14, "Rosa Sul", 135, 270, 180, 270, 200, 270, 1.4, 4, 1.6, 4, 1.8, 4, 70, 180, 70, 160, 70, 120, "bandeira")
+        rosasul = Condicao(14, "Rosa Sul", 129, 270, 180, 270, 200, 270, 1.4, 4, 1.6, 4, 1.8, 4, 70, 180, 70, 160, 70, 120, "bandeira")
         luz = Condicao(15, "Luz", 160, 270, 180, 270, 200, 270, 1.1, 1.8, 1.4, 1.8, 1.6, 1.8, 70, 180, 70, 180, 70, 180, "fechado")
         ibiraquera = Condicao(16, "Ibiraquera", 45, 270, 32, 270, 20, 270, 1.1, 2.7, 1.1, 2.7, 1.1, 2.7, 70, 180, 90, 180, 100, 180, "bandeira")
         ribanceira = Condicao(17, "Ribanceira", 160, 270, 180, 270, 200, 270, 1.6, 3, 1.8, 3, 2, 3, 90, 180, 100, 170, 110, 160, "bandeira")
@@ -69,33 +74,42 @@ def algoritmo():
         picos_sul = [gamboa, garopabinha, tayson, silveirasul, barrinha, barra, ouvidor, vermelha, rosasul, luz, ribanceira, praiadagua, portinho, itapirasul, gisul, ravena, ponta, tereza]
 
         for pico in picos_nordeste:
-            if (vento <= pico.ventomin_classico) or (vento >= pico.ventomax_classico):
-                if swell >= pico.swellmin_classico and swell <= pico.swellmax_classico:
-                    if direcao >= pico.direcaomin_classico and direcao <= pico.direcaomax_classico:
-                        classico.append(pico)
-            if (vento <= pico.ventomin_altas) or (vento >= pico.ventomax_altas):
-                if swell >= pico.swellmin_altas and swell <= pico.swellmax_altas:
-                    if direcao >= pico.direcaomin_altas and direcao <= pico.direcaomax_altas:
-                        altas.append(pico)
-            elif (vento <= pico.ventomin_vala) or (vento >= pico.ventomax_vala):
-                if swell >= pico.swellmin_vala and swell <= pico.swellmax_vala:
-                    if direcao >= pico.direcaomin_vala and direcao <= pico.direcaomax_vala:
-                        vala.append(pico) 
+            if pico.executarNorte(vento, swell, direcao) == "classico":
+                classico.append(pico.nome)
+            elif pico.executarNorte(vento, swell, direcao) == "altas":
+                altas.append(pico.nome)
+            elif pico.executarNorte(vento, swell, direcao) == "vala":
+                vala.append(pico.nome)
 
         for pico in picos_sul:
-            if (vento >= pico.ventomin_classico) and (vento <= pico.ventomax_classico):
-                if swell >= pico.swellmin_classico and swell <= pico.swellmax_classico:
-                    if direcao >= pico.direcaomin_classico and direcao <= pico.direcaomax_classico:
-                        classico.append(pico)
-            if (vento >= pico.ventomin_altas) and (vento <= pico.ventomax_altas):
-                if swell >= pico.swellmin_altas and swell <= pico.swellmax_altas:
-                    if direcao >= pico.direcaomin_altas and direcao <= pico.direcaomax_altas:
-                        altas.append(pico)
-            elif (vento >= pico.ventomin_vala) and (vento <= pico.ventomax_vala):
-                if swell >= pico.swellmin_vala and swell <= pico.swellmax_vala:
-                    if direcao >= pico.direcaomin_vala and direcao <= pico.direcaomax_vala:
-                        vala.append(pico) 
+            if pico.executarSul(vento, swell, direcao) == "classico":
+                classico.append(pico.nome)
+            elif pico.executarSul(vento, swell, direcao) == "altas":
+                altas.append(pico.nome)
+            elif pico.executarSul(vento, swell, direcao) == "vala":
+                vala.append(pico.nome)
+        classicos = ', '.join(classico)
+        valas = ', '.join(vala)
+        alta = ', '.join(altas)
 
-        
-
+        novo = Historico(usuario_id = current_user.id, vento=vento, swell=swell, direcao=direcao,data=data, classicos=classicos, altas = alta, vala = valas)
+        db.session.add(novo)
+        db.session.commit()
     return render_template('algoritmo.html', usuario=current_user, vento = vento, tamanho_swell=swell, direcao_swell= direcao, classico=classico, altas=altas, vala=vala)
+
+@views.route('/view', methods=['GET'])
+@login_required
+def view():
+    return render_template("view.html", usuario=current_user)
+
+@views.route('/remove-Historico', methods=['POST','GET'])
+@login_required
+def remover_historico():
+    data = json.loads(request.data)
+    historico_id = data["historicoId"]
+    historico = Historico.query.get(historico_id)
+    if historico.usuario_id == current_user.id:
+        db.session.delete(historico)
+        db.session.commit()
+    flash("Condição removida!", category="success")
+    return jsonify({})
