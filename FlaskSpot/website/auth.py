@@ -16,7 +16,7 @@ def login():
         usuario = Usuario.query.filter_by(email=email).first()
 
         if usuario:
-            if check_password_hash(usuario.senha, senha):
+            if usuario.senha == senha:
                 flash("Login efetuado!", category='success')
                 login_user(usuario, remember=True)
                 return redirect(url_for('views.home'))
@@ -52,7 +52,7 @@ def sign_up():
         elif len(senha)<7:
             flash('Senha de ter mais de 7 caracteres', category='error')
         else:
-            usuario = Usuario(email=email, nome = nome, senha = generate_password_hash(senha,method='sha256'))
+            usuario = Usuario(email=email, nome = nome, senha = senha)
             db.session.add(usuario)
             db.session.commit()
             login_user(usuario, remember=True)
