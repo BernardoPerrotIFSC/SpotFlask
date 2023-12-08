@@ -132,7 +132,7 @@ def algoritmo2():
         #garopaba
         garopabinha = Condicao2("Garopabinha", 180, 290, 1.1, 1.7, 70, 120, "fechado")
         # lajinha = Condicao()
-        silveiranorte = Condicao2("Silveira Norte",22, 247, 1.1, 2.0, 70, 140, "fechado")
+        silveiranorte = Condicao2("Silveira Norte",50, 247, 1.1, 2.3, 70, 140, "fechado")
         tayson = Condicao2("Tayson", 65, 360, 1.1, 2.0, 70, 135, "bandeira")
         silveirasul = Condicao2("Silveira Sul", 65, 360, 1.6, 4, 80, 190, "bandeira")
         ferrugem = Condicao2("Ferrugem", 67, 247, 1.1, 1.9, 80, 190, "aberto")
