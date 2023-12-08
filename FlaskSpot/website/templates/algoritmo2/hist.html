@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Histórico{% endblock %}
+{% block content %}
+    <h1 class="text-center">Histórico Algoritmo Simples</h1>
+    <table>
+        <thead>
+            <th>Direção Vento</th>
+            <th>Tamanho de Swell</th>
+            <th>Direção Swell</th>
+            <th>Data</th>
+            <th>Picos Rolando</th>
+        </thead>
+        {% for condicao in usuario.historico2 %}
+            <tr>
+                <td>{{condicao.vento}}</td>
+                <td>{{condicao.swell}}</td>
+                <td>{{condicao.direcao}}</td>
+                <td>{{condicao.data}}</td>
+                <td>{{condicao.picos}}</td>
+                <td><button type="button" class="btn btn-danger" onClick="removeHistorico({{ condicao.id }})">Remover</button></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

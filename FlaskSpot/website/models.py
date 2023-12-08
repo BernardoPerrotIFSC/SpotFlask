@@ -11,6 +11,7 @@ class Usuario(db.Model, UserMixin):
     senha = db.Column(db.String(150))
     nome = db.Column(db.String(150))
     historico = db.relationship('Historico')
+    historico2 = db.relationship("Historico2")
     
 class Condicao:
     def __init__(self, id, nome, ventomin_vala, ventomax_vala, ventomin_altas, ventomax_altas, ventomin_classico, ventomax_classico, swellmin_vala, swellmax_vala, swellmin_altas, swellmax_altas, swellmin_classico, swellmax_classico,direcaomin_vala, direcaomax_vala, direcaomin_altas, direcaomax_altas, direcaomin_classico, direcaomax_classico, tainha):
@@ -89,6 +90,15 @@ class Historico(db.Model):
     classicos = db.Column(db.String)
     altas = db.Column(db.String)
     vala = db.Column(db.String)
+
+class Historico2(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    vento = db.Column(db.Float)
+    swell = db.Column(db.Float)
+    direcao = db.Column(db.Float)
+    data = db.Column(db.Date)
+    picos = db.Column(db.String)
 
 class Condicao2:
     def __init__(self, nome, ventomin, ventomax, tam_swellmin, tam_swellmax, dir_swellmin, dir_swellmax, tainha):

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
-from .models import Condicao, Historico, Condicao2
+from .models import Condicao, Historico, Condicao2, Historico2
 from website import db
 from datetime import datetime
 import json
@@ -94,7 +94,24 @@ def algoritmo():
         novo = Historico(usuario_id = current_user.id, vento=vento, swell=swell, direcao=direcao,data=data, classicos=classicos, altas = alta, vala = valas)
         db.session.add(novo)
         db.session.commit()
-    return render_template('algoritmo.html', usuario=current_user, vento = vento, tamanho_swell=swell, direcao_swell= direcao, classico=classico, altas=altas, vala=vala)
+    return render_template('algoritmo/algoritmo.html', usuario=current_user, vento = vento, tamanho_swell=swell, direcao_swell= direcao, classico=classico, altas=altas, vala=vala)
+
+@views.route('/view', methods=['GET'])
+@login_required
+def view():
+    return render_template("algoritmo/view.html", usuario=current_user)
+
+@views.route('/remove-Historico', methods=['POST','GET'])
+@login_required
+def remover_historico():
+    data = json.loads(request.data)
+    historico_id = data["historicoId"]
+    historico = Historico.query.get(historico_id)
+    if historico.usuario_id == current_user.id:
+        db.session.delete(historico)
+        db.session.commit()
+    flash("Condição removida!", category="success")
+    return jsonify({})
 
 @views.route('/algoritmo-simples', methods=['GET','POST'])
 @login_required
@@ -158,23 +175,13 @@ def algoritmo2():
         for pico in Picos_Sul:
             if pico.picoSul(vento, swell, direcao) == True:
                 rolando.append(pico.nome)
-        # picos = ', '.join(rolando)
-
-    return render_template("algoritmo2.html", usuario = current_user.id, vento = vento, swell = swell, direcao = direcao, rolando = rolando)
-
-@views.route('/view', methods=['GET'])
-@login_required
-def view():
-    return render_template("view.html", usuario=current_user)
-
-@views.route('/remove-Historico', methods=['POST','GET'])
-@login_required
-def remover_historico():
-    data = json.loads(request.data)
-    historico_id = data["historicoId"]
-    historico = Historico.query.get(historico_id)
-    if historico.usuario_id == current_user.id:
-        db.session.delete(historico)
+        picos = ', '.join(rolando)
+        novo = Historico2(usuario_id = current_user.id, vento=vento, swell=swell, direcao=direcao,data=data, picos = picos)
+        db.session.add(novo)
         db.session.commit()
-    flash("Condição removida!", category="success")
-    return jsonify({})
+    return render_template("algoritmo2/algoritmo2.html", usuario = current_user, vento = vento, swell = swell, direcao = direcao, rolando = rolando)
+
+@views.route("/hist", methods=["GET","POST"])
+@login_required
+def hist():
+    return render_template("algoritmo2/hist.html", usuario = current_user)

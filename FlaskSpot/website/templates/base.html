@@ -22,14 +22,21 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
           {% if usuario %}
-            <li class="nav-item">
-              <a class="nav-link" href="/algoritmo">Algoritmo Dos Picos</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Algoritmo
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/algoritmo">Algoritmo</a>
+                <a class="dropdown-item" href="/view">Histórico</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/view">View</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/algoritmo-simples">Algoritmo 2</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Algoritmo 2
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/algoritmo-simples">Algoritmo</a>
+                <a class="dropdown-item" href="/hist">Histórico</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/logout">Logout</a>
