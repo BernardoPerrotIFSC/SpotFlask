@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
-from .models import Condicao, Historico
+from .models import Condicao, Historico, Condicao2
 from website import db
 from datetime import datetime
 import json
@@ -31,7 +31,6 @@ def algoritmo():
         #Paulo Lopes
         guarda = Condicao(1,"Guarda do Embaú", 65, 270, 45, 270, 22, 270, 1.1, 2.5, 1.4, 2.5, 1.6, 2.5, 45, 180, 45, 180, 45, 180, "fechado")
         gamboa = Condicao(2, "Gamboa", 140, 270, 180, 270, 180, 270, 1.4, 2.2, 1.6, 2.5, 2, 2.5, 67, 135, 67, 110, 67, 110, "fechado")
-
         #Garopaba
         garopabinha = Condicao(3, "Garopabinha", 157, 270, 180, 270, 200, 270, 1.1, 2, 1.4, 2, 1.6, 2, 67, 135, 67, 120, 67, 110, "fechado")
         silveiranorte = Condicao(4, "Silveira Norte", 45, 200, 22, 225, 15, 240, 1.1, 2.3, 1.4, 2.3, 1.6, 2.3, 45, 180, 45, 150, 45, 135, "fechado")
@@ -96,6 +95,72 @@ def algoritmo():
         db.session.add(novo)
         db.session.commit()
     return render_template('algoritmo.html', usuario=current_user, vento = vento, tamanho_swell=swell, direcao_swell= direcao, classico=classico, altas=altas, vala=vala)
+
+@views.route('/algoritmo-simples', methods=['GET','POST'])
+@login_required
+def algoritmo2():
+    vento = None
+    swell = None
+    direcao = None
+    rolando = []
+    if request.method == 'POST':
+        vento = int(request.form.get('vento'))
+        swell = float(request.form.get('tamanho'))
+        direcao = int(request.form.get('swell'))
+        data_str = request.form.get('data')
+        data = datetime.strptime(data_str, '%Y-%m-%d')
+
+        guarda = Condicao2("Guarda do Embaú", 50, 270, 1.1, 2.8, 80, 180, "fechado")
+        gamboa = Condicao2("Gamboa",180, 290, 1.4, 2.5, 90, 135, "fechado")
+        #garopaba
+        garopabinha = Condicao2("Garopabinha", 180, 290, 1.1, 1.7, 70, 120, "fechado")
+        # lajinha = Condicao()
+        silveiranorte = Condicao2("Silveira Norte",22, 247, 1.1, 2.0, 70, 140, "fechado")
+        tayson = Condicao2("Tayson", 65, 360, 1.1, 2.0, 70, 135, "bandeira")
+        silveirasul = Condicao2("Silveira Sul", 65, 360, 1.6, 4, 80, 190, "bandeira")
+        ferrugem = Condicao2("Ferrugem", 67, 247, 1.1, 1.9, 80, 190, "aberto")
+        barrinha = Condicao2("Barrinha", 160, 290, 1.1, 1.7, 70, 190, "fechado")
+        barranorte = Condicao2("Barra Norte", 180, 380, 1.1, 1.7, 80, 180, "fechado")
+        barra = Condicao2("Barra SUl", 257, 280, 1.1, 1.8, 70, 190, "fechado")
+        ouvidor = Condicao2("Ouvidor", 180, 290, 1.1, 1.6, 80, 157, "fechado")
+        vermelha = Condicao2("Vermelha",180, 280, 1.3, 2.0, 80, 157, "fechado")
+        #imbituba
+        rosanorte = Condicao2("Rosa Norte", 75, 135, 1.0, 2.0, 75, 185, "aberto")
+        rosasul = Condicao2("Rosa Sul",135, 270, 1.0, 4.5, 55, 200, "bandeira")
+        luz = Condicao2("luz", 120, 270, 1.0, 1.8, 65, 180, "fechado")
+        ibiraquera = Condicao2("Ibiraquera", 45, 240, 1.0, 2.5, 60, 180, "bandeira")
+        ribanceira = Condicao2("Ribanceira", 160, 270, 1.0, 3.0, 70, 190, "bandeira")
+        praiadagua = Condicao2("Praia d'água", 180, 270, 1.1, 1.7, 90, 185, "aberto")
+        portinho = Condicao2("Portinho",135, 270, 1.1, 2.5, 67.5, 135, "aberto")
+        praiadavila = Condicao2("Vila",67, 240, 1.1, 3.0, 112, 200, "bandeira")
+        # castelinho = Condicao()
+        itapirasul = Condicao2("Itapiruba Sul",157, 270, 1.2, 2.0, 90, 135, "fechado")
+        itapiranorte = Condicao2("Itapiruba Norte",67, 315, 1.0, 1.8, 67, 200, "bandeira")          
+        #laguna
+        gisul = Condicao2("Gi Sul",190, 270, 1.5, 2.2, 70, 130, "aberto")
+        ginorte = Condicao2("Gi Norte", 10, 290, 1.0, 1.5, 70, 180, "aberto")
+        ravena = Condicao2("Ravena",150, 270, 1.6, 2.2, 90, 185, "aberto")
+        ponta = Condicao2("Ponta",170, 270, 1.3, 1.6, 90, 185, "aberto")
+        #FarolDeSantaMarta
+        tereza = Condicao2("Tereza",157, 270, 1.3, 2.5, 90, 190, "aberto")
+        ipua = Condicao2("Ipuã", 67, 270, 1.1, 2.8, 90, 190, "aberto")
+        galheta = Condicao2("Galheta", 67, 270, 1.1, 2.8, 90, 190, "aberto")
+        cardoso = Condicao2("Cardoso", 67, 245, 1.1, 5, 90, 190, "aberto")
+        cigana = Condicao2("Cigana", 67, 270, 1.1, 2.3, 100, 200, "aberto")
+
+        Picos_Nordeste = [guarda, silveiranorte, ferrugem, barranorte, rosanorte, ibiraquera, praiadavila, itapiranorte,  ginorte, ipua, galheta, cardoso, cigana]
+
+        Picos_Sul = [gamboa, garopabinha, tayson, silveirasul, barrinha, barra, ouvidor, vermelha, rosasul, luz, ribanceira, praiadagua, portinho, itapirasul, gisul, ravena, ponta, tereza]
+
+        for pico in Picos_Nordeste:
+            if pico.picoNorte(vento, swell, direcao) == True:
+                rolando.append(pico.nome)
+        for pico in Picos_Sul:
+            if pico.picoSul(vento, swell, direcao) == True:
+                rolando.append(pico.nome)
+        # picos = ', '.join(rolando)
+
+    return render_template("algoritmo2.html", usuario = current_user.id, vento = vento, swell = swell, direcao = direcao, rolando = rolando)
 
 @views.route('/view', methods=['GET'])
 @login_required

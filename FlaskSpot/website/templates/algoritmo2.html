@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %} Algoritmo 2{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Algoritmo Dos Picos</h1>
+    <form method="POST" class="algoritmo">
+        <div class="form-group">
+            <label for="vento">Direção do Vento</label>
+            <input id="vento" name="vento" type="number" placeholder="Digite o ângulo do vento" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="tamanho">Tamanho das Ondulação</label>
+            <input type="number" step="0.1" id="tamanho" name="tamanho" type="number" placeholder="Digite o tamanho do swell" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="swell">Direção do Swell</label>
+            <input id="swell" name="swell" type="number" placeholder="Digite a direção do Swell" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="dataCompra">Data da Condição</label>
+            <input type="date" name="data" id="" class="">
+        </div>
+        <button type="submit" class="btn btn-success">Calcular</button>
+    </form>
+    <script id="wg_fwdg_5690_100_1698251679450">
+        (function (window, document) {
+          var loader = function () {
+            var arg = ["s=5690" ,"m=100","mw=83","uid=wg_fwdg_5690_100_1698251679450" ,"wj=knots" ,"tj=c" ,"waj=m" ,"tij=cm" ,"odh=0" ,"doh=24" ,"fhours=240" ,"hrsm=2" ,"vt=forecasts" ,"lng=pt" ,"idbs=1" ,"p=WINDSPD,GUST,SMER,HTSGW,PERPW,DIRPW,TMP,TCDC,APCP1s,RH"];
+            var script = document.createElement("script");
+            var tag = document.getElementsByTagName("script")[0];
+            script.src = "https://www.windguru.cz/js/widget.php?"+(arg.join("&"));
+            tag.parentNode.insertBefore(script, tag);
+          };
+          window.addEventListener ? window.addEventListener("load", loader, false) : window.attachEvent("onload", loader);
+        })(window, document);
+    </script>
+    <div>
+        {% if vento: %}
+        <h3>O ângulo do vento é: {{ vento }}</h3>
+        <h3>O tamanho do swell é: {{ swell }}</h3>
+        <h3>O ângulo do swell é: {{ direcao }}</h3>
+        <h2>Picos que podem estar rolando:</h2>
+            {% for pico in rolando %}
+                <p>{{pico}}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+{% endblock %}

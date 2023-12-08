@@ -90,5 +90,95 @@ class Historico(db.Model):
     altas = db.Column(db.String)
     vala = db.Column(db.String)
 
+class Condicao2:
+    def __init__(self, nome, ventomin, ventomax, tam_swellmin, tam_swellmax, dir_swellmin, dir_swellmax, tainha):
+        self._nome = nome
+        self._ventomin = ventomin
+        self._ventomax = ventomax
+        self._tam_swellmin = tam_swellmin
+        self._tam_swellmax = tam_swellmax
+        self._dir_swellmin = dir_swellmin
+        self._dir_swellmax = dir_swellmax
+        self._tainha = tainha
+
+    def __str__(self):
+        return f'Nome do pico: {self._nome}, Direção de Vento mínima: {self._ventomin}, Direção de vento Máxima: {self._ventomax}, tamanho de swell mínimo: {self._tam_swellmin},tamanho de swell máximo: {self._tam_swellmax},  Direção de swell mínimo: {self._dir_swellmin}, Direção de swell: {self._dir_swellmax}, Tainha: {self._tainha}'
+    
+    @property
+    def nome(self):
+        return self._nome
+
+    @nome.setter
+    def nome(self, nome):
+        self._nome = nome
+
+    @property
+    def ventomin(self):
+        return self._ventomin
+
+    @ventomin.setter
+    def ventomin(self,ventomin):
+        self._ventomin = ventomin
+
+    @property
+    def ventomax(self):
+        return self._ventomax
+
+    @ventomax.setter
+    def ventomax(self, ventomax):
+        self._ventomax = ventomax
+
+    @property
+    def tam_swellmin(self):
+        return self._tam_swellmin
+
+    @tam_swellmin.setter
+    def tam_swellmin(self, tam_swellmin):
+        self._tam_swellmin = tam_swellmin
+
+    @property
+    def tam_swellmax(self):
+        return self._tam_swellmax
+
+    @tam_swellmax.setter
+    def tam_swellmax(self, tam_swellmax):
+        self.tam_swellmax = tam_swellmax
+
+    @property
+    def dir_swellmin(self):
+        return self._dir_swellmin
+
+    @dir_swellmin.setter
+    def dir_swellmin(self, dir_swellmin):
+        self._dir_swellmin = dir_swellmin
+
+    @property
+    def dir_swellmax(self):
+        return self._dir_swellmax
+
+    @dir_swellmax.setter
+    def dir_swellmax(self, dir_swellmax):
+        self._dir_swellmax = dir_swellmax
+
+    @property
+    def tainha(self):
+        return self._tainha
+    
+    @tainha.setter
+    def tainha(self, tainha):
+        self._tainha = tainha
+
+    def picoNorte(self, vento, swell, direcao):
+        if vento <= self._ventomin or vento >= self._ventomax:
+            if swell >= self._tam_swellmin and swell <= self._tam_swellmax:
+                if direcao >= self._dir_swellmin and direcao <= self._dir_swellmax:
+                    return True
+                
+    def picoSul(self, vento, swell, direcao):
+        if vento >= self._ventomin and vento <= self._ventomax:
+            if swell >= self._tam_swellmin and swell <= self._tam_swellmax:
+                if direcao >= self._dir_swellmin and direcao <= self._dir_swellmax:
+                    return True
+
 admin.add_view(ModelView(Usuario, db.session))
 admin.add_view(ModelView(Historico, db.session))
